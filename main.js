@@ -5,7 +5,7 @@ Milestone 3 - Se clicchiamo sul tasto "Mi Piace" cambiamo il colore al testo del
 Salviamo in un secondo array gli id dei post ai quali abbiamo messo il like.
 BONUS:
 Formattare le date in formato italiano (gg/mm/aaaa)
-Gestire l'assenza dell'immagine profilo con un elemento di fallback che contiene le iniziali dell'utente (es. Luca Formicola > LF).
+
 Al click su un pulsante "Mi Piace" di un post, se abbiamo già cliccato dobbiamo decrementare il contatore e cambiare il colore del bottone.*/
 
 
@@ -82,34 +82,83 @@ const posts = [
 
 // Milestone 2 - Prendendo come riferimento il layout di esempio presente nell'html, stampiamo i post del nostro feed.
 
+// BONUS 2 - Gestire l'assenza dell'immagine profilo con un elemento di fallback che contiene le iniziali dell'utente (es. Luca Formicola > LF).
 
-/*<div class="post">
-            <div class="post__header">
-                <div class="post-meta">                    
-                    <div class="post-meta__icon">
-                        <img class="profile-pic" src=" QUI VA POST.AUTHOR.IMAGE" alt="Phil Mangione">                    
+for( let i = 0; i<posts.length; i++){
+    let post = document.createElement("div")
+    post.classList.add("post")
+
+    let profilepic = posts[i].author.image
+
+
+    // creiamo l'header
+    if(posts[i].author.image === null){
+
+        profilepic = creaIniziali(posts[i].author.name)
+        post.innerHTML = `
+                    <div class="post__header">
+                        <div class="post-meta">
+                            <div class="post-meta__icon">
+                                <div class="profile-pic d-flex justify-content-center align-items-center bg-success">
+                                    <span>${profilepic}</span>
+                                </div>
+                            </div>
+                            <div class="post-meta__data">
+                                <div class="post-meta__author">${posts[i].author.name}</div>
+                                <div class="post-meta__time">${posts[i].created}</div>
+                            </div>
+                        </div>
+                    </div>`
+    } else {
+    post.innerHTML = `
+                    <div class="post-meta">
+                        <div class="post-meta__icon">
+                            <img class="profile-pic" src="${profilepic}" alt="${posts[i].author.name}">
+                        </div>
+                        <div class="post-meta__data">
+                            <div class="post-meta__author">${posts[i].author.name}</div>
+                            <div class="post-meta__time">${posts[i].created}</div>
+                        </div>
+                    </div>`
+    }
+
+    // creiamo corpo del post
+
+    post.innerHTML += `
+                    <div class="post__text"> ${posts[i].content} </div>
+                    <div class="post__image">
+                        <img src="${posts[i].media}" alt="">
                     </div>
-                    <div class="post-meta__data">
-                        <div class="post-meta__author">QUI VA POST.AUTHOR.NAME</div>
-                        <div class="post-meta__time">QUI VA POST.CREATED</div>
-                    </div>                    
-                </div>
-            </div>
-            <div class="post__text"> QUI VA POST.CONTENT </div>
-            <div class="post__image">
-                <img src="QUI VA POST.MEDIA" alt="">
-            </div>
-            <div class="post__footer">
-                <div class="likes js-likes">
-                    <div class="likes__cta">
-                        <a class="like-button  js-like-button" href="#" data-postid="1">
-                            <i class="like-button__icon fas fa-thumbs-up" aria-hidden="true"></i>
-                            <span class="like-button__label">Mi Piace</span>
-                        </a>
-                    </div>
-                    <div class="likes__counter">
-                        Piace a <b id="like-counter-1" class="js-likes-counter">QUI VA POST.LIKES</b> persone
-                    </div>
-                </div> 
-            </div>            
-        </div>*/
+                    <div class="post__footer">
+                        <div class="likes js-likes">
+                            <div class="likes__cta">
+                                <a class="like-button  js-like-button" href="#" data-postid="${posts[i].id}">
+                                    <i class="like-button__icon fas fa-thumbs-up" aria-hidden="true"></i>
+                                    <span class="like-button__label">Mi Piace</span>
+                                </a>
+                            </div>
+                            <div class="likes__counter">
+                                Piace a <b id="like-counter-1" class="js-likes-counter">${posts[i].likes}</b> persone
+                            </div>
+                        </div> 
+                    </div> `
+
+    document.getElementById("container").append(post)
+}
+
+
+
+function creaIniziali(nome){
+    let flag=false
+    let output=""
+    for (let i=0; i<nome.length; i++){
+        if(flag==false){
+            output += nome[i]
+            flag = true
+        } else if (flag == true && nome[i] == " "){
+            flag= false
+        }
+    }
+    return output
+
+}
