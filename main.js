@@ -1,11 +1,9 @@
 /*!Descrizione
 Ricreiamo un feed social aggiungendo al layout di base fornito, il nostro script JS in cui:
 
-Milestone 3 - Se clicchiamo sul tasto "Mi Piace" cambiamo il colore al testo del bottone e incrementiamo il counter dei likes relativo.
-Salviamo in un secondo array gli id dei post ai quali abbiamo messo il like.
+
 BONUS:
 Formattare le date in formato italiano (gg/mm/aaaa)
-
 Al click su un pulsante "Mi Piace" di un post, se abbiamo già cliccato dobbiamo decrementare il contatore e cambiare il colore del bottone.*/
 
 
@@ -96,7 +94,7 @@ for( let i = 0; i<posts.length; i++){
 
         profilepic = creaIniziali(posts[i].author.name)
         post.innerHTML = `
-                    <div class="post__header">
+                    <div class="post__header" id="#${posts[i].id}">
                         <div class="post-meta">
                             <div class="post-meta__icon">
                                 <div class="profile-pic d-flex justify-content-center align-items-center bg-success">
@@ -132,7 +130,7 @@ for( let i = 0; i<posts.length; i++){
                     <div class="post__footer">
                         <div class="likes js-likes">
                             <div class="likes__cta">
-                                <a class="like-button  js-like-button" href="#" data-postid="${posts[i].id}">
+                                <a class="like-button js-like-button" href="#${posts[i].id}" data-postid="${posts[i].id}">
                                     <i class="like-button__icon fas fa-thumbs-up" aria-hidden="true"></i>
                                     <span class="like-button__label">Mi Piace</span>
                                 </a>
@@ -147,6 +145,23 @@ for( let i = 0; i<posts.length; i++){
 }
 
 
+/*Milestone 3 - Se clicchiamo sul tasto "Mi Piace" cambiamo il colore al testo del bottone e incrementiamo il counter dei likes relativo.
+Salviamo in un secondo array gli id dei post ai quali abbiamo messo il like.*/
+
+const likeButtons = document.querySelectorAll(".like-button")
+
+for(let i=0; i<likeButtons.length;i++){
+    likeButtons[i].addEventListener("click", function(){
+
+        if([...this.classList].includes("text-success")){
+            this.classList.remove("text-success")
+        } else {
+            this.classList.add("text-success")
+        }
+
+        console.log("andato")
+    })
+}
 
 function creaIniziali(nome){
     let flag=false
