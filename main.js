@@ -159,14 +159,14 @@ for(let i=0; i<likeButtons.length;i++){
 
             let indice = likedPosts.indexOf(posts[i].id)
             likedPosts.splice(indice, 1)
-            console.log(likedPosts)
+            console.log("ID post con like: " + likedPosts)
         } else {
             this.classList.add("text-success")
             posts[i].likes++
             document.getElementById(`like-counter-${posts[i].id}`).innerHTML = posts[i].likes
 
             likedPosts.push(posts[i].id)
-            console.log(likedPosts)
+            console.log("ID post con like: " + likedPosts)
         }
 
     })
