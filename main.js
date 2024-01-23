@@ -1,10 +1,7 @@
 /*!Descrizione
-Ricreiamo un feed social aggiungendo al layout di base fornito, il nostro script JS in cui:
-
 
 BONUS:
-Formattare le date in formato italiano (gg/mm/aaaa)
-Al click su un pulsante "Mi Piace" di un post, se abbiamo già cliccato dobbiamo decrementare il contatore e cambiare il colore del bottone.*/
+Formattare le date in formato italiano (gg/mm/aaaa)*/
 
 
 /*Milestone 1 - Creiamo il nostro array di oggetti che rappresentano ciascun post.
@@ -136,7 +133,7 @@ for( let i = 0; i<posts.length; i++){
                                 </a>
                             </div>
                             <div class="likes__counter">
-                                Piace a <b id="like-counter-1" class="js-likes-counter">${posts[i].likes}</b> persone
+                                Piace a <b id="like-counter-${posts[i].id}" class="js-likes-counter">${posts[i].likes}</b> persone
                             </div>
                         </div> 
                     </div> `
@@ -146,20 +143,32 @@ for( let i = 0; i<posts.length; i++){
 
 
 /*Milestone 3 - Se clicchiamo sul tasto "Mi Piace" cambiamo il colore al testo del bottone e incrementiamo il counter dei likes relativo.
-Salviamo in un secondo array gli id dei post ai quali abbiamo messo il like.*/
+Salviamo in un secondo array gli id dei post ai quali abbiamo messo il like.
+Al click su un pulsante "Mi Piace" di un post, se abbiamo già cliccato dobbiamo decrementare il contatore e cambiare il colore del bottone.*/
 
 const likeButtons = document.querySelectorAll(".like-button")
+let likedPosts=[]
 
 for(let i=0; i<likeButtons.length;i++){
     likeButtons[i].addEventListener("click", function(){
 
         if([...this.classList].includes("text-success")){
             this.classList.remove("text-success")
+            posts[i].likes--
+            document.getElementById(`like-counter-${posts[i].id}`).innerHTML = posts[i].likes
+
+            let indice = likedPosts.indexOf(posts[i].id)
+            likedPosts.splice(indice, 1)
+            console.log(likedPosts)
         } else {
             this.classList.add("text-success")
+            posts[i].likes++
+            document.getElementById(`like-counter-${posts[i].id}`).innerHTML = posts[i].likes
+
+            likedPosts.push(posts[i].id)
+            console.log(likedPosts)
         }
 
-        console.log("andato")
     })
 }
 
